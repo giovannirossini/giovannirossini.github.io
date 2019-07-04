@@ -112,6 +112,12 @@ img {
   background: url("assets/texture.png");
 }
 
+.social-links .fa {
+  font-size: 2rem;
+  color: #cacaca;
+  margin: auto 5px;
+}
+
 @media (max-width: 720px) { 
 
   body {
@@ -164,7 +170,8 @@ img {
   }
 
   h6 { /* 12px */
-      font-size: 10px;
+      font-size: 14px;
+      margin: 10px;
   }
 
   .sector .main-title {
