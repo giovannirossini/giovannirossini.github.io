@@ -109,17 +109,30 @@ img {
 .process li:first-child, 
 .process li:last-child,
 .box-it:before {
-    background: url("assets/texture.png");
+  background: url("assets/texture.png");
 }
 
-@media (max-width: 991px) { 
+@media (max-width: 720px) { 
 
   body {
-      font-size: 12px;
+    font-size: 12px;
+    text-align: justify;
   }
 
-  section {
-      margin-bottom: 0;
+  .section-holder {
+    margin: 15px auto;
+  }
+
+  .col-sm-4 {
+    left: auto;
+  }  
+
+ .col-sm-8 {
+    right: auto;
+  }
+
+  .sep-mini {
+    margin-top: 10px;
   }
 
   a {
@@ -157,11 +170,6 @@ img {
   .sector .main-title {
       font-size: 50px;
   }
-
-  [class*=col] {
-      margin-bottom: 30px;
-  }
-
   
 
 @media (max-width: 479px) { 
