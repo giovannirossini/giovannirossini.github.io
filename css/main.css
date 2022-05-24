@@ -1,6 +1,11 @@
 /* Buttons */
 /* Inputs */
 /* Timeline custom component */
+
+.h4 {
+  color: #434a54;
+}
+
 .timeline {
   border-left: 2px solid #E6E9ED;
   padding: 1rem 0;
@@ -67,6 +72,18 @@
   background-color: #37BC9B;
 }
 
+.timeline-card-warning {
+  border-left-color: #F6BB42;
+}
+
+.timeline-card-warning:before {
+  border-color: #F6BB42;
+}
+
+.timeline-card-warning:after {
+  background-color: #F6BB42;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -80,13 +97,13 @@ html {
   padding: 0;
   font-size: 1.25rem;
   line-height: 2.5rem;
-  color: rgba(0, 0, 0, 0.5);
+  color: rgba(0, 0, 0, 0.65);
 }
 
 .nav-link:hover,
 .nav-link:focus,
 .active .nav-link {
-  color: rgba(0, 0, 0, 0.8);
+  color: rgba(0, 0, 0, 0.9);
 }
 
 .nav-item+.nav-item {
@@ -197,7 +214,7 @@ footer a:not(.nav-link) {
 
   .skills-section,
   .work-experience-section,
-  .education-section,
+  .cloud-section,
   .contant-section {
     padding: 1.5rem 5rem 2rem !important;
   }
