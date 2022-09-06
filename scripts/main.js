@@ -32,3 +32,10 @@ function includeHTML() {
     }
   }
 }
+
+
+function myAge() {
+  const currentYear = new Date().getFullYear();
+  const age = Math.abs(1996 - currentYear);
+  document.getElementById('age').innerHTML = age;
+}
