@@ -1,0 +1,6 @@
+baseURL: "https://giovannirossini.github.io/"
+languageCode: "en-us"
+title: "Giovanni Rossini"
+theme: "hugo-book"
+
+bookMenuBundle: /menu
