@@ -2,7 +2,7 @@
 
 ~/.tmux.conf
 
-```bash
+```tmux
 set-environment -g PATH "/usr/local/bin:/bin:/usr/bin:/opt/homebrew/bin"
 set -g @plugin 'tmux-plugins/tmux-battery'
 set -g @plugin 'tmux-plugins/tmux-open'
