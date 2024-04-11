@@ -1,6 +1,6 @@
 ---
-title: Introduction
+title: #!/bin/giovanni
 type: docs
 ---
 
-# Giovanni Rossini
+my little corner of the internet
