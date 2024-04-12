@@ -8,15 +8,14 @@ alias copy='pbcopy'
 alias fzf='fzf --keep-right --preview "bat --color=always --style=numbers --line-range=:500 {}"'
 alias paste='pbpaste'
 alias cssh='bash $HOME/environment/config/.cssh/cssh'
-alias environment='cd environment'
-alias eplugin='cd /var/www/onbi'
 alias vim='nvim'
 alias vi='vim'
 alias tf='terraform'
 alias openvpn="open -a OpenVPN\ Connect"
-alias mtgo='$HOME/run-mtgo -v /home/giovanni/MTGdecks:/mnt'
+alias mtgo='$HOME/run-mtgo -v $HOME/MTGdecks:/mnt'
 alias tree='tree -a'
 alias pwgen='pwgen -ysBv'
+alias sed='gsed'
 
 function ff() {
   DIR=$1
