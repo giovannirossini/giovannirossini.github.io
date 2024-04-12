@@ -27,7 +27,7 @@ eval "$(fzf --zsh)"
 source $ZSH/oh-my-zsh.sh
 ```
 
-#### LSCOLORS
+{{< expand "LSCOLORS" >}}
 
 `Dxexdxfxcxbgbdabagaacd` is defined by pairs of the form `AB` where `A` is the foreground color and `B` is the background color. The color designators are as follows:
 
@@ -80,3 +80,6 @@ G. bold cyan
 H. bold light grey; looks like bright white
 x. default foreground or background
 ```
+
+{{< /expand >}}
+{{< figure src="../../../../images/lscolors.png" >}}
