@@ -45,7 +45,7 @@ source $ZSH/oh-my-zsh.sh
 
 The order of the attributes are as follows:
 
-```bash
+```toml
 1.  directory
 2.  symbolic link
 3.  socket
@@ -61,7 +61,7 @@ The order of the attributes are as follows:
 
 The color designators are as follows:
 
-```bash
+```toml
 a. black
 b. red
 c. green

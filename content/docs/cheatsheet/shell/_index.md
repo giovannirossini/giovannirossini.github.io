@@ -5,3 +5,6 @@ title: "Shell"
 ---
 
 # Shell
+
+- [Aliases](shell/aliases/)
+- [Zshrc](shell/zshrc/)
