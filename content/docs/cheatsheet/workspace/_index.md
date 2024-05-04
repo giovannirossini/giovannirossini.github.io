@@ -6,12 +6,12 @@ title: "Workspace"
 
 # Workspace
 
-- [Neovim](workspace/nvim/)
-  - [Extensions](workspace/nvim/extensions/)
-  - [Colors](workspace/nvim/colors/)
-  - [Git](workspace/nvim/git/)
-  - [Keymap](workspace/nvim/keymap/)
-  - [Neoformat](workspace/nvim/neoformat/)
-  - [Variables](workspace/nvim/variables/)
-- [Alacritty](workspace/alacritty/)
-- [Tmux](workspace/tmux/)
+- [Neovim](nvim/)
+  - [Extensions](nvim/extensions/)
+  - [Colors](nvim/colors/)
+  - [Git](nvim/git/)
+  - [Keymap](nvim/keymap/)
+  - [Neoformat](nvim/neoformat/)
+  - [Variables](nvim/variables/)
+- [Alacritty](alacritty/)
+- [Tmux](tmux/)

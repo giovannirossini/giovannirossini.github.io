@@ -6,5 +6,5 @@ title: "HashiCorp"
 
 # HashiCorp
 
-- [Vault](hashicorp/vault/)
-  - [Storage Backend Migration](hashicorp/vault/storage_backend_migration/)
+- [Vault](vault/)
+  - [Storage Backend Migration](vault/storage_backend_migration/)
