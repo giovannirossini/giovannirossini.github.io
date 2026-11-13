@@ -1,0 +1,14 @@
+# Add a tool: copy an entry, give it a unique id, drop a 1440x900 screenshot
+# in src/assets/tools/, and set `order` (lower shows first).
+- id: terraform-plan-visualizer
+  name: Plan Visualizer
+  summary: Read the plan before you apply it.
+  details: >-
+    Paste `terraform plan` output or drop a `terraform show -json` file to see
+    every create, update, replace and destroy grouped by action, with stateful
+    resources at risk of data loss called out. Runs entirely in your browser.
+  url: https://giovannirossini.github.io/terraform-plan-visualizer/
+  repo: https://github.com/giovannirossini/terraform-plan-visualizer
+  screenshot: ../assets/tools/terraform-plan-visualizer.png
+  screenshotAlt: Plan Visualizer showing a plan with 1 create, 1 update, 1 replace and 2 destroys, and a data-loss warning for a database instance.
+  order: 1

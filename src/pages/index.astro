@@ -1,0 +1,180 @@
+---
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+
+const tools = (await getCollection('tools')).sort((a, b) => a.data.order - b.data.order);
+const experience = (await getCollection('experience')).sort(
+  (a, b) => b.data.start - a.data.start || (b.data.end ?? 9999) - (a.data.end ?? 9999),
+);
+const writing = (await getCollection('writing')).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+);
+
+const escape = (s: string) =>
+  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const inlineCode = (s: string) => escape(s).replace(/`([^`]+)`/g, '<code>$1</code>');
+
+const years = (start: number, end?: number) =>
+  end === undefined ? `${start}–now` : start === end ? `${start}` : `${start}–${end}`;
+
+// Hero: a terraform plan that creates me. Each entry is one line; `kind` drives color.
+type Line = { kind: 'blank' | 'text' | 'comment' | 'open' | 'attr' | 'close' | 'summary'; text?: string; key?: string; value?: string };
+const attrs: [string, string][] = [
+  ['role', '"DevOps Lead"'],
+  ['focus', '"Platform engineering"'],
+  ['location', '"São Paulo, Brazil"'],
+  ['clouds', '["aws", "gcp", "azure"]'],
+  ['compliance', '["fedramp", "hipaa", "soc2"]'],
+  ['languages', '["en", "pt", "es"]'],
+  ['since', '2015'],
+];
+const pad = Math.max(...attrs.map(([k]) => k.length));
+const plan: Line[] = [
+  { kind: 'text', text: 'Terraform will perform the following actions:' },
+  { kind: 'blank' },
+  { kind: 'comment', text: '  # engineer.giovanni_rossini will be created' },
+  { kind: 'open', text: '  + resource "engineer" "giovanni_rossini" {' },
+  ...attrs.map(([k, v]): Line => ({ kind: 'attr', key: k.padEnd(pad), value: v })),
+  { kind: 'close', text: '    }' },
+  { kind: 'blank' },
+  { kind: 'summary', text: 'Plan: 1 to add, 0 to change, 0 to destroy.' },
+];
+
+const links = [
+  { label: 'GitHub', href: 'https://github.com/giovannirossini' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/rossinigiovanni' },
+  { label: 'Medium', href: 'https://medium.com/@rossinigiovanni' },
+  { label: 'Email', href: 'mailto:giovannirossini@duck.com' },
+];
+---
+
+<Base
+  title="Giovanni Rossini"
+  description="DevOps Lead in São Paulo. Tools for infrastructure work, notes on platform engineering, and where I've worked."
+>
+  <header class="topbar">
+    <a class="wordmark" href="/">#!/bin/giovanni</a>
+    <button class="theme-toggle" type="button" aria-live="polite">Dark mode</button>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="name">
+      <h1 id="name">Giovanni Rossini</h1>
+      <p class="sr-only">DevOps Lead focused on platform engineering, based in São Paulo, working in infrastructure since 2015.</p>
+      <pre class="plan" aria-hidden="true"><code>{plan.map((l, i) => (
+        <span class={`line ${l.kind}`} style={`--i:${i}`}>{
+          l.kind === 'attr' ? (
+            <Fragment><span class="sign">      +</span> {l.key} = <span class="value">{l.value}</span></Fragment>
+          ) : l.kind === 'open' ? (
+            <Fragment>  <span class="sign">+</span>{l.text!.slice(3)}</Fragment>
+          ) : l.kind === 'summary' ? (
+            <Fragment><strong>Plan:</strong> <span class="add">1 to add</span>, 0 to change, 0 to destroy.</Fragment>
+          ) : (
+            l.text ?? ' '
+          )
+        }{'\n'}</span>
+      ))}</code></pre>
+      <div class="intro">
+        <p>
+          I lead the DevOps team at AmplifyMD, a healthtech company. I own the CI/CD platform and
+          the AWS infrastructure behind it, and drive the FedRAMP, HIPAA and SOC 2 work that comes
+          with handling patient data.
+        </p>
+        <p>
+          I started in IT support in 2015 and have worked through sysadmin, SRE and platform roles since.
+          On the side I build small tools for the parts of infrastructure work that are easy to get
+          wrong, like reading a plan before you apply it.
+        </p>
+      </div>
+    </section>
+
+    <section aria-labelledby="tools-heading">
+      <h2 id="tools-heading">Tools</h2>
+      <ul class="tools">
+        {tools.map(({ data }) => (
+          <li class="tool">
+            <a class="tool-shot" href={data.url} tabindex="-1" aria-hidden="true">
+              <Image
+                src={data.screenshot}
+                alt=""
+                widths={[720, 1440]}
+                sizes="(min-width: 60rem) 56rem, 100vw"
+                loading="lazy"
+              />
+            </a>
+            <div class="tool-body">
+              <h3><a href={data.url}>{data.name}</a></h3>
+              <p class="tool-summary">{data.summary}</p>
+              <p set:html={inlineCode(data.details)} />
+              <p class="tool-links">
+                <a href={data.url}>Open {data.name}</a>
+                <a href={data.repo}>Source on GitHub</a>
+              </p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section aria-labelledby="experience-heading">
+      <h2 id="experience-heading">Experience</h2>
+      <ol class="timeline">
+        {experience.map(({ data }) => (
+          <li>
+            <span class="years">{years(data.start, data.end)}</span>
+            <div>
+              <h3>{data.company}<span class="role">, {data.role}</span></h3>
+              <p>{data.highlight}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+      <p class="aside">
+        BSc in Computer Science, Universidade Paulista, 2018.
+        Full history on <a href="https://www.linkedin.com/in/rossinigiovanni">LinkedIn</a>.
+      </p>
+    </section>
+
+    <section aria-labelledby="writing-heading">
+      <h2 id="writing-heading">Writing</h2>
+      <ul class="writing">
+        {writing.map(({ data }) => (
+          <li>
+            <time datetime={data.date.toISOString().slice(0, 10)}>{data.date.getUTCFullYear()}</time>
+            <a href={data.url}>{data.title}</a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <ul class="links">
+      {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+    </ul>
+    <p class="aside">
+      Built with Astro. <a href="https://github.com/giovannirossini/giovannirossini.github.io">Source</a>.
+    </p>
+  </footer>
+
+  <script>
+    const btn = document.querySelector<HTMLButtonElement>('.theme-toggle')!;
+    const root = document.documentElement;
+    const media = window.matchMedia('(prefers-color-scheme: dark)');
+    const current = () => (root.dataset.theme as 'light' | 'dark' | undefined) ?? (media.matches ? 'dark' : 'light');
+    const render = () => {
+      const next = current() === 'dark' ? 'light' : 'dark';
+      btn.textContent = next === 'dark' ? 'Dark mode' : 'Light mode';
+      btn.setAttribute('aria-label', `Switch to ${next} mode`);
+    };
+    btn.addEventListener('click', () => {
+      const next = current() === 'dark' ? 'light' : 'dark';
+      root.dataset.theme = next;
+      try { localStorage.setItem('theme', next); } catch {}
+      render();
+    });
+    media.addEventListener('change', render);
+    render();
+  </script>
+</Base>
