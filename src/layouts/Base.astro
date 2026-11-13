@@ -1,0 +1,70 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import '@fontsource-variable/martian-mono/wdth.css';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const ogImage = new URL('/og.png', Astro.site).href;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="color-scheme" content="light dark" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <script is:inline>
+      // The router resets <html> attributes on each navigation, so reapply theme and typing state after every swap.
+      (() => {
+        const d = document.documentElement;
+        const path = () => location.pathname.replace(/\/+$/, '') || '/';
+        let typed = [];
+        try {
+          typed = JSON.parse(sessionStorage.getItem('typed') || '[]');
+        } catch {}
+        window.__typed = new Set(typed);
+
+        const apply = () => {
+          try {
+            const t = localStorage.getItem('theme');
+            if (t === 'light' || t === 'dark') d.dataset.theme = t;
+          } catch {}
+          const p = path();
+          if (!matchMedia('(prefers-reduced-motion: reduce)').matches && !window.__typed.has(p)) {
+            d.classList.add('anim');
+            // Failsafe: show content if the page script never starts typing.
+            setTimeout(() => {
+              if (window.__typingPath !== p) d.classList.remove('anim');
+            }, 1500);
+          }
+        };
+        apply();
+        document.addEventListener('astro:after-swap', apply);
+      })();
+    </script>
+    <ClientRouter />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

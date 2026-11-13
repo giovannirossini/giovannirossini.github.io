@@ -1,0 +1,59 @@
+- id: amplifymd
+  company: AmplifyMD
+  role: DevOps Lead
+  start: 2024
+  highlight: Lead the DevOps team and own GitLab CI/CD for frontend, backend and AI services. Drive FedRAMP work against NIST SP 800-53 and CIS Benchmarks, after delivering the SOC 2 and HIPAA controls as Senior DevOps Engineer.
+- id: bemeir
+  company: Bemeir
+  role: Staff DevOps Engineer
+  start: 2023
+  end: 2024
+  highlight: Led DevOps architecture for 8+ client projects on AWS, Terraform-first across every environment.
+- id: ipsy
+  company: IPSY
+  role: DevOps Lead
+  start: 2022
+  end: 2023
+  highlight: Re-architected CI/CD with Jenkins and GitHub, cutting time from development to release by 76%.
+- id: bees
+  company: BEES
+  role: Site Reliability Engineer
+  start: 2021
+  end: 2022
+  highlight: Ran Azure and AWS with New Relic monitoring provisioned through Terraform and Terragrunt, and Kubernetes delivery through Argo CD.
+- id: e-plugin
+  company: e-plugin
+  role: DevOps & Cloud Architect
+  start: 2019
+  end: 2024
+  highlight: Built and ran AWS environments, from EKS and ECS to Aurora and OpenSearch, with Terraform, Ansible and CloudFormation.
+- id: totvs
+  company: TOTVS
+  role: SRE & DevOps Architect
+  start: 2019
+  end: 2021
+  highlight: Automated disaster recovery with Terraform and Ansible across AWS, GCP and Azure.
+- id: uol
+  company: UOL
+  role: DevOps Engineer
+  start: 2018
+  end: 2019
+  highlight: Deployment automation with Jenkins, Puppet and Kubernetes for high-traffic services.
+- id: instituto-soma
+  company: Instituto Soma
+  role: DevOps Engineer & SysAdmin
+  start: 2017
+  end: 2019
+  highlight: Set up the AWS environment and GitLab CI/CD, and brought Docker to the team.
+- id: ferragut
+  company: Ferragut Soluções em T.I.
+  role: IT Infrastructure Analyst
+  start: 2017
+  end: 2018
+  highlight: Windows and Linux servers, pfSense, VMware and Zabbix for client networks.
+- id: early
+  company: Tilibra and Grupo Multicobra
+  role: Support and infrastructure
+  start: 2013
+  end: 2017
+  highlight: Helpdesk, SQL and server maintenance. Where it started.

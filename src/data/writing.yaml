@@ -1,0 +1,32 @@
+- id: vault-storage-backend-migration
+  title: "Vault: Storage Backend Migration"
+  url: https://medium.com/@rossinigiovanni/vault-storage-backend-migration-a3f9d787a595
+  date: 2024-04-12
+- id: buildah-podman
+  title: First Container with Buildah and Podman
+  url: https://medium.com/@rossinigiovanni/first-container-with-buildah-and-podman-9768195e4d83
+  date: 2022-09-21
+- id: ansible-playground
+  title: Ansible Playground with Docker
+  url: https://medium.com/grupo-tesseract/ansible-playground-with-docker-d85b81220b8d
+  date: 2022-09-19
+- id: varnish
+  title: Load Balance with Varnish
+  url: https://medium.com/@rossinigiovanni/load-balance-with-varnish-5b92adc20358
+  date: 2020-03-02
+- id: traefik
+  title: "Traefik: How to Proxy With Let’s Encrypt + NGINX or Docker"
+  url: https://medium.com/@rossinigiovanni/traefik-how-to-proxy-with-lets-encrypt-nginx-or-docker-a98f6d79626c
+  date: 2019-07-17
+- id: kubernetes-first-steps
+  title: "Kubernetes: First Steps to Deployment"
+  url: https://medium.com/grupo-tesseract/kubernetes-first-steps-to-deployment-8aee24415c62
+  date: 2019-04-14
+- id: kubernetes-network-policy
+  title: "Kubernetes: Connection between Pod’s by Network Policy"
+  url: https://medium.com/grupo-tesseract/kubernetes-conex%C3%A3o-entre-pods-por-network-policy-41fdce56b4a9
+  date: 2019-04-02
+- id: gitlab-ci-reuse
+  title: "Gitlab CI: How to reuse your .yml code"
+  url: https://medium.com/grupo-tesseract/gitlab-ci-how-to-reuse-your-yml-code-96a82b3d587e
+  date: 2018-11-09

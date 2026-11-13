@@ -1,0 +1,36 @@
+---
+import { getCollection } from 'astro:content';
+import Shell from '../layouts/Shell.astro';
+import Command from '../components/Command.astro';
+import { years, shortHash } from '../lib/format';
+
+const experience = (await getCollection('experience')).sort(
+  (a, b) => b.data.start - a.data.start || (b.data.end ?? 9999) - (a.data.end ?? 9999),
+);
+---
+
+<Shell
+  tab="career"
+  title="Career | Giovanni Rossini"
+  description="From IT support in 2015 to DevOps Lead: SRE, platform and cloud roles at AmplifyMD, IPSY, BEES, TOTVS and more."
+>
+  <Command cmd="git log --oneline career" label="Career" id="career" level={1}>
+    <ol class="log">
+      {experience.map(({ id, data }, i) => (
+        <li>
+          <div class="log-head">
+            <span class="hash" aria-hidden="true">{shortHash(id)}</span>
+            {i === 0 && <span class="ref" aria-hidden="true">(<span class="head">HEAD -&gt; </span><span class="branch">main</span>)</span>}
+            <span class="years">{years(data.start, data.end)}</span>
+            <h2>{data.company}<span class="role">: {data.role}</span></h2>
+          </div>
+          <p class="log-body">{data.highlight}</p>
+        </li>
+      ))}
+    </ol>
+    <p class="comment">
+      # BSc Computer Science, Universidade Paulista, 2018.
+      Full history on <a href="https://www.linkedin.com/in/rossinigiovanni">LinkedIn</a>.
+    </p>
+  </Command>
+</Shell>

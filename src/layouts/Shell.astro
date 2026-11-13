@@ -1,0 +1,210 @@
+---
+import { getCollection } from 'astro:content';
+import Base from './Base.astro';
+
+export type TabId = 'whoami' | 'about' | 'tools' | 'career' | 'writing' | 'contact';
+
+interface Props {
+  tab: TabId;
+  title: string;
+  description: string;
+}
+
+const { tab, title, description } = Astro.props;
+
+const tools = (await getCollection('tools')).sort((a, b) => a.data.order - b.data.order);
+const writing = (await getCollection('writing')).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+);
+
+type Child = { label: string; href: string };
+type Tab = { id: TabId; file: string; href: string; children?: Child[] };
+
+const tabs: Tab[] = [
+  { id: 'whoami', file: 'whoami', href: '/' },
+  { id: 'about', file: 'about.txt', href: '/about' },
+  {
+    id: 'tools',
+    file: 'tools/',
+    href: '/tools',
+    children: tools.map((t) => ({ label: `${t.id}/`, href: `/tools#${t.id}` })),
+  },
+  { id: 'career', file: 'career.log', href: '/career' },
+  {
+    id: 'writing',
+    file: 'writing/',
+    href: '/writing',
+    children: writing.map((w) => ({ label: `${w.id}.md`, href: `/writing#${w.id}` })),
+  },
+  { id: 'contact', file: 'contact.txt', href: '/contact' },
+];
+---
+
+<Base title={title} description={description}>
+  <header class="topbar">
+    <a class="wordmark" href="/">#!/bin/giovanni</a>
+    <button class="theme-toggle" type="button">[ dark ]</button>
+  </header>
+
+  <div class="app">
+    <nav class="tree" aria-label="Sections">
+      <p class="tree-root" aria-hidden="true">~/giovanni</p>
+      <ul>
+        {tabs.map((t, i) => {
+          const active = t.id === tab;
+          return (
+            <li>
+              <a
+                class:list={['node', { folder: t.children, active }]}
+                href={t.href}
+                aria-current={active ? 'page' : undefined}
+                data-key={i}
+              >
+                <span class="chev" aria-hidden="true">{t.children ? (active ? '▾' : '▸') : ' '}</span>
+                {t.file}
+              </a>
+              {t.children && active && (
+                <ul class="children">
+                  {t.children.map((c, j) => (
+                    <li>
+                      <a class="node child" href={c.href}>
+                        <span class="guide" aria-hidden="true">{j === t.children!.length - 1 ? '└ ' : '│ '}</span>
+                        {c.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+      <p class="tree-hint">Press 0–5 to switch</p>
+    </nav>
+
+    <main class="pane">
+      <slot />
+      <p class="cmd idle" aria-hidden="true">
+        <span class="ps1"><span class="who">giovanni@sp</span>:<span class="cwd">~</span>$</span>
+        <span class="cursor"></span>
+      </p>
+    </main>
+  </div>
+
+  <nav class="statusbar" aria-label="Sections">
+    <span class="session" aria-hidden="true">[giovanni]</span>
+    {tabs.map((t, i) => (
+      <a
+        class:list={['window', { active: t.id === tab }]}
+        href={t.href}
+        aria-current={t.id === tab ? 'page' : undefined}
+      >
+        {i}:{t.id}{t.id === tab ? '*' : ''}
+      </a>
+    ))}
+  </nav>
+</Base>
+
+<script>
+  import { navigate } from 'astro:transitions/client';
+
+  const root = document.documentElement;
+  const media = window.matchMedia('(prefers-color-scheme: dark)');
+  const path = () => location.pathname.replace(/\/+$/, '') || '/';
+  const w = window as unknown as { __typed: Set<string>; __typingPath?: string };
+
+  // Theme toggle: label shows the mode you switch to.
+  const current = () =>
+    (root.dataset.theme as 'light' | 'dark' | undefined) ?? (media.matches ? 'dark' : 'light');
+  const renderToggle = () => {
+    const btn = document.querySelector<HTMLButtonElement>('.theme-toggle');
+    if (!btn) return;
+    const next = current() === 'dark' ? 'light' : 'dark';
+    btn.textContent = `[ ${next} ]`;
+    btn.setAttribute('aria-label', `Switch to ${next} mode`);
+  };
+  document.addEventListener('click', (e) => {
+    if (!(e.target as Element).closest('.theme-toggle')) return;
+    const next = current() === 'dark' ? 'light' : 'dark';
+    root.dataset.theme = next;
+    try {
+      localStorage.setItem('theme', next);
+    } catch {}
+    renderToggle();
+  });
+  media.addEventListener('change', renderToggle);
+
+  const CHAR_MS = 40;
+  const PAUSE_MS = 200;
+  const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+  let run = 0;
+
+  const finishAll = () => {
+    document.querySelectorAll<HTMLElement>('.pane .block').forEach((b) => {
+      const typed = b.querySelector<HTMLElement>('.typed')!;
+      typed.textContent = typed.dataset.cmd ?? '';
+      b.classList.remove('typing');
+      b.classList.add('done');
+    });
+    root.classList.remove('anim');
+  };
+
+  const markTyped = (p: string) => {
+    w.__typed.add(p);
+    try {
+      sessionStorage.setItem('typed', JSON.stringify([...w.__typed]));
+    } catch {}
+  };
+
+  const typePage = async () => {
+    if (!root.classList.contains('anim')) return;
+    const p = path();
+    const mine = ++run;
+    w.__typingPath = p;
+    const live = () => run === mine && root.classList.contains('anim');
+    const blocks = [...document.querySelectorAll<HTMLElement>('.pane .block')];
+    blocks.forEach((b) => (b.querySelector<HTMLElement>('.typed')!.textContent = ''));
+
+    for (const b of blocks) {
+      const typed = b.querySelector<HTMLElement>('.typed')!;
+      const cmd = typed.dataset.cmd ?? '';
+      b.classList.add('typing');
+      for (const ch of cmd) {
+        if (!live()) return;
+        typed.textContent += ch;
+        await sleep(CHAR_MS);
+      }
+      await sleep(PAUSE_MS);
+      if (!live()) return;
+      b.classList.remove('typing');
+      b.classList.add('done');
+    }
+    markTyped(p);
+    root.classList.remove('anim');
+  };
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Tab') {
+      if (root.classList.contains('anim')) {
+        run++;
+        markTyped(path());
+        finishAll();
+      }
+      return;
+    }
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    const t = e.target as HTMLElement;
+    if (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)) return;
+    const link = document.querySelector<HTMLAnchorElement>(`.tree a[data-key="${e.key}"]`);
+    if (link) {
+      e.preventDefault();
+      navigate(link.getAttribute('href')!);
+    }
+  });
+
+  document.addEventListener('astro:page-load', () => {
+    renderToggle();
+    document.querySelector('.statusbar .active')?.scrollIntoView({ block: 'nearest', inline: 'center' });
+    typePage();
+  });
+</script>

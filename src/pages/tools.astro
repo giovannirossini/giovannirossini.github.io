@@ -1,0 +1,36 @@
+---
+import { getCollection } from 'astro:content';
+import Shell from '../layouts/Shell.astro';
+import Command from '../components/Command.astro';
+import { inlineCode } from '../lib/format';
+
+const tools = (await getCollection('tools')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<Shell
+  tab="tools"
+  title="Tools | Giovanni Rossini"
+  description="Small browser tools for infrastructure work, starting with a Terraform plan visualizer."
+>
+  <Command cmd="ls -l tools/" label="Tools" id="tools" level={1}>
+    <p class="dim" aria-hidden="true">total {tools.length}</p>
+    <ul class="tools">
+      {tools.map(({ id, data }) => (
+        <li id={id}>
+          <p class="ls-row">
+            <span class="dim" aria-hidden="true">drwxr-xr-x  giovanni  </span>
+            <a class="dir" href={data.url}><span class="sr-only">{data.name}: </span>{id}/</a>
+          </p>
+          <div class="tool-desc">
+            <p class="tool-summary">{data.summary}</p>
+            <p set:html={inlineCode(data.details)} />
+            <p class="actions">
+              <a href={data.url}>[open {data.name}]</a>
+              <a href={data.repo}>[source]</a>
+            </p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </Command>
+</Shell>
