@@ -1,0 +1,23 @@
+---
+// The prompt line is aria-hidden decoration; `label` is the real heading for screen readers.
+interface Props {
+  cmd: string;
+  label: string;
+  id: string;
+  level?: 1 | 2;
+}
+
+const { cmd, label, id, level = 2 } = Astro.props;
+const Heading = `h${level}` as 'h1' | 'h2';
+---
+
+<section class="block" aria-labelledby={`${id}-heading`}>
+  <Heading id={`${id}-heading`} class="sr-only">{label}</Heading>
+  <p class="cmd" aria-hidden="true">
+    <span class="ps1"><span class="who">giovanni@sp</span>:<span class="cwd">~</span>$</span>
+    <span class="typed" data-cmd={cmd}>{cmd}</span>
+  </p>
+  <div class="out">
+    <slot />
+  </div>
+</section>

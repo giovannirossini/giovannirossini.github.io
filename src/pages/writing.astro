@@ -1,0 +1,26 @@
+---
+import { getCollection } from 'astro:content';
+import Shell from '../layouts/Shell.astro';
+import Command from '../components/Command.astro';
+
+const writing = (await getCollection('writing')).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+);
+---
+
+<Shell
+  tab="writing"
+  title="Writing | Giovanni Rossini"
+  description="Articles on Kubernetes, Vault, Ansible, Traefik, GitLab CI and containers."
+>
+  <Command cmd="ls -t writing/" label="Writing" id="writing" level={1}>
+    <ul class="writing">
+      {writing.map(({ id, data }) => (
+        <li id={id}>
+          <time class="dim" datetime={data.date.toISOString().slice(0, 10)}>{data.date.toISOString().slice(0, 10)}</time>
+          <a href={data.url}>{data.title}</a>
+        </li>
+      ))}
+    </ul>
+  </Command>
+</Shell>

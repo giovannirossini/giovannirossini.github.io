@@ -1,0 +1,25 @@
+---
+import Shell from '../layouts/Shell.astro';
+import Command from '../components/Command.astro';
+---
+
+<Shell
+  tab="about"
+  title="About | Giovanni Rossini"
+  description="DevOps Lead at AmplifyMD, working on CI/CD, AWS and FedRAMP, HIPAA and SOC 2 compliance."
+>
+  <Command cmd="cat about.txt" label="About" id="about" level={1}>
+    <div class="prose">
+      <p>
+        I lead the DevOps team at AmplifyMD, a healthtech company. I own the CI/CD platform and the
+        AWS infrastructure behind it, and drive the FedRAMP, HIPAA and SOC 2 work that comes with
+        handling patient data.
+      </p>
+      <p>
+        I started in IT support in 2015 and have worked through sysadmin, SRE and platform roles
+        since. On the side I build small tools for the parts of infrastructure work that are easy
+        to get wrong, like reading a plan before you apply it.
+      </p>
+    </div>
+  </Command>
+</Shell>

@@ -1,0 +1,39 @@
+---
+import Shell from '../layouts/Shell.astro';
+import Command from '../components/Command.astro';
+
+const attrs: [string, string][] = [
+  ['role', '"DevOps Lead"'],
+  ['focus', '"Platform engineering"'],
+  ['location', '"São Paulo, Brazil"'],
+  ['clouds', '["aws", "gcp", "azure"]'],
+  ['compliance', '["fedramp", "hipaa", "soc2"]'],
+  ['languages', '["en", "pt", "es"]'],
+  ['since', '2015'],
+];
+const pad = Math.max(...attrs.map(([k]) => k.length));
+---
+
+<Shell
+  tab="whoami"
+  title="Giovanni Rossini"
+  description="DevOps Lead in São Paulo. Tools for infrastructure work, notes on platform engineering, and where I've worked."
+>
+  <Command cmd="whoami" label="Giovanni Rossini" id="whoami" level={1}>
+    <p class="name" aria-hidden="true">Giovanni Rossini</p>
+  </Command>
+
+  <Command cmd="terraform plan" label="Summary" id="plan">
+    <p class="sr-only">
+      DevOps Lead focused on platform engineering, based in São Paulo, working in infrastructure
+      since 2015.
+    </p>
+    <pre class="plan" aria-hidden="true"><code><span class="line">Terraform will perform the following actions:</span>
+<span class="line"> </span>
+<span class="line comment">  # engineer.giovanni_rossini will be created</span>
+<span class="line">  <span class="add">+</span> resource "engineer" "giovanni_rossini" {"{"}</span>
+{attrs.map(([k, v]) => <span class="line">      <span class="add">+</span> {k.padEnd(pad)} = <span class="value">{v}</span>{'\n'}</span>)}<span class="line">    {"}"}</span>
+<span class="line"> </span>
+<span class="line"><strong>Plan:</strong> <span class="add">1 to add</span>, 0 to change, 0 to destroy.</span></code></pre>
+  </Command>
+</Shell>
